@@ -1,0 +1,17 @@
+{
+  "name": "innometrics_js",
+  "version": "1.0.0",
+  "dependencies": {
+    "active-win": "^4.1.0",
+    "axios": "^0.18.0",
+    "cron": "^1.6.0",
+    "date-and-time": "^0.6.3",
+    "express": "latest",
+    "getmac": "^1.4.6",
+    "ip": "^1.1.5",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "sqlite3": "latest",
+    "strftime": "^0.10.0"
+  }
+}
