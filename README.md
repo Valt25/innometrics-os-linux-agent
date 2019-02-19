@@ -25,4 +25,5 @@ To install this system on your local machine, to begin gathering data from your 
     `./run.sh`
     
     It will run 2 processes in parallel. To stop both, you just need to press ctrl+c.
-    
+
+* Also you have to run centralized server(for now on your local computer) according to these sources and deployment.sh script(https://github.com/InnopolisUniversity/innometrics-backend)
