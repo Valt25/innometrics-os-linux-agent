@@ -1,9 +1,15 @@
+const https = require('https');
 const axios = require('axios');
 const ip = require("ip");
 const mac = require('getmac');
 const user = require(__dirname + '/../config/user.json');
 const strftime = require("strftime");
-const backend_url = 'http://localhost:8120';
+const server_conf = require(__dirname + '/../config/server.json');
+const backend_url = server_conf.server_url;
+
+const agent = new https.Agent({
+    rejectUnauthorized: false
+});
 
 mac.getMac(function(err, macAddress){
     if (err)  throw err;
@@ -12,7 +18,7 @@ mac.getMac(function(err, macAddress){
 let jwt_token = undefined;
 
 function login() {
-    axios.post(backend_url + '/login', {email: user.email, password: user.password})
+    axios.post(backend_url + '/login', {email: user.email, password: user.password}, {httpsAgent: agent})
         .then((res) => {
             jwt_token = res.data.token;
             // console.log(res);
@@ -34,7 +40,7 @@ module.exports = function send_activity(activity, sensor) {
             ip_address: local_ip,
             mac_address: local_mac,
         };
-        return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}});
+        return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent});
     } else {
         login();
     }
