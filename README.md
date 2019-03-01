@@ -29,6 +29,9 @@ To install this system on your local machine, to begin gathering data from your 
 
 #### Prerequisites
 We assume that all Ubuntu and Debian OSs have git, tar, and wget binaries in path by default. If not try next command:
+
 `sudo apt-get install git`
+
 `sudo apt-get install tar`
+
 `sudo apt-get install wget`
