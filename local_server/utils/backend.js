@@ -39,6 +39,7 @@ module.exports = function send_activity(activity, sensor) {
             end_time: activity.end || strftime('%B %d, %Y %H:%M:%S'),
             ip_address: local_ip,
             mac_address: local_mac,
+            idle_activity: activity.idle
         };
         return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent});
     } else {

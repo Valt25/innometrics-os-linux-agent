@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     end: DataTypes.DATE,
     ip_address: DataTypes.STRING,
     mac_address: DataTypes.STRING,
+    idle: DataTypes.BOOLEAN
   }, {});
   Activity.associate = function(models) {
     Activity.belongsTo(models.Sensor);

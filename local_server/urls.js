@@ -30,6 +30,7 @@ router.post('/activity/data', function (req, res) {
                 name: data.name,
                 start_time: start,
                 end_time: end,
+                idle: data.idle
             };
             send_activity(activity, sensor)
                 .then((status) => {

@@ -9,9 +9,13 @@
     "express": "latest",
     "getmac": "^1.4.6",
     "ip": "^1.1.5",
+    "rxjs": "^6.4.0",
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0",
     "sqlite3": "latest",
     "strftime": "^0.10.0"
+  },
+  "devDependencies": {
+    "iohook": "^0.3.1"
   }
 }

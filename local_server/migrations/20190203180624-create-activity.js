@@ -23,6 +23,9 @@ module.exports = {
       end: {
         type: Sequelize.DATE
       },
+      idle: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
