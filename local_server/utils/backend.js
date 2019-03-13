@@ -35,13 +35,14 @@ module.exports = function send_activity(activity, sensor) {
         const data = {
             executable_name: activity.name,
             activity_type: sensor.name,
-            start_time: activity.begin || strftime('%B %d, %Y %H:%M:%S'),
-            end_time: activity.end || strftime('%B %d, %Y %H:%M:%S'),
+            start_time: activity.start,
+            end_time: activity.end,
             ip_address: local_ip,
             mac_address: local_mac,
             idle_activity: activity.idle
         };
-        return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent});
+        console.log(data);
+        return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent}).then(e => console.log(e.config.data)).catch(e => console.log(e));
     } else {
         login();
     }

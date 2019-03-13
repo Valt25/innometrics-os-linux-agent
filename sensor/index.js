@@ -2,7 +2,6 @@ const axios = require('axios');
 const activeWin = require('active-win');
 const strftime = require('strftime');
 const ioWrapper = require('./utils/io_hook_wrap');
-
 let server_url = 'http://localhost:3000';
 
 let last_window = undefined;
@@ -21,13 +20,18 @@ function auth_sensor() {
 
 function create_activity(window, idle) {
     if (window) {
+        console.log(window.begins_at);
+        console.log(new Date());
         const data = {
-            name: window.window.owner.name,
-            start: strftime('%Y/%m/%d %H:%M:%S', window.from),
-            end: strftime('%Y/%m/%d %H:%M:%S', new Date()),
-            idle: idle,
+            type: 'active_window',
+            activity: {
+                name: window.window.owner.name,
+                start: strftime('%Y/%m/%d %H:%M:%S', window.begins_at),
+                end: strftime('%Y/%m/%d %H:%M:%S', new Date()),
+                idle: idle,
+            }
         };
-        axios.post(server_url + '/activity/data', data, {headers: {'Authorization': token}})
+        axios.post(server_url + '/activity/data', data, {headers: {'Authorization': token}}).then(e => console.log("Success")).catch(e => console.log(e))
     }
 }
 
@@ -68,11 +72,11 @@ function check_window() {
         });
 }
 
+const idle_min_duration = 60000;
 
 ioWrapper().subscribe((event) => {
-        console.log(event);
         current_activity = new Date();
-        if (current_activity - last_activity > 1000) {
+        if (current_activity - last_activity > idle_min_duration) {
             proceed_activity(last_window, true)
         }
         last_activity = new Date();

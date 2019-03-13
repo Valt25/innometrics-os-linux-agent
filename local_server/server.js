@@ -4,6 +4,7 @@ var urls = require('./urls');
 var cron = require('cron');
 const models = require('./models');
 let send_activity = require('./utils/backend');
+const proceed_raw = require('./activity_handlers');
 
 send_activity.login();
 
@@ -13,14 +14,7 @@ var cronJob = cron.job("*/10 * * * * *", function () {
             activities.forEach((activity) => {
                 // console.log(activity);
                 let sensor = activity.getSensor();
-                send_activity(activity, sensor)
-                    .then((status) => {
-                        activity.destroy().then((status) => console.log('ok'));
-                    })
-                    .catch((err) => {
-                        console.log('Not now');
-                        console.log(err);
-                    });
+                proceed_raw(activity, sensor);
 
             })
         })

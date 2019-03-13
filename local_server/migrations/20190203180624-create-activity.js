@@ -8,23 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      type: {
+        type: Sequelize.STRING,
       },
-      ip_address: {
-        type: Sequelize.STRING
-      },
-      mac_address: {
-        type: Sequelize.STRING
-      },
-      begin: {
-        type: Sequelize.DATE
-      },
-      end: {
-        type: Sequelize.DATE
-      },
-      idle: {
-        type: Sequelize.BOOLEAN
+      data: {
+        type: Sequelize.JSON,
       },
       createdAt: {
         allowNull: false,
