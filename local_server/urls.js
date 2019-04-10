@@ -21,33 +21,40 @@ router.post('/activity/data', function (req, res) {
     const token = req.get('Authorization');
     console.log(data.type);
     console.log(data.activity);
-    models.Sensor.findOne({ where: {token: token}})
+    models.Sensor.findOne({where: {token: token}})
         .then((sensor) => {
             proceed_raw(data, sensor);
         });
-    // let start = date.parse(data.start, 'YYYY/MM/DD HH:mm:ss');
-    // let end = date.parse(data.end, 'YYYY/MM/DD HH:mm:ss');
-    //
-    // models.Sensor.findOne({ where: {token: token}})
-    //     .then((sensor) => {
-    //         const data = req.body;
-    //         let activity = {
-    //             name: data.name,
-    //             start_time: start,
-    //             end_time: end,
-    //             idle: data.idle
-    //         };
-    //         send_activity(activity, sensor)
-    //             .then((status) => {
-    //                 res.send('sent')
-    //             })
-    //             .catch((err) => {
-    //                 models.Activity.create(activity).then((activity) => {
-    //                     activity.setSensor(sensor, {save: true});
-    //                     res.send('Not sent. Cached');
-    //                 })
-    //             })
-    //     });
+    res.send("Ok")
+});
+
+router.get('/global', function (req, res) {
+    console.log('Global request');
+    models.GlobalState.findByPk(1)
+        .then((state) => {
+            if (state) {
+                res.send({
+                    login: state.login,
+                    username: state.username
+                })
+            } else {
+                res.status(400).send("Need setup globals at first");
+            }
+        }).catch(err => console.log(err));
+});
+
+router.post('/global', function (req, res) {
+    let data = req.body;
+    console.log(data);
+    models.GlobalState.findByPk(1)
+        .then((state) => {
+            if (state) {
+                state.update(data)
+            } else {
+                models.GlobalState.create(data)
+            }
+        });
+    res.send("Ok")
 
 });
 

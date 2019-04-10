@@ -12,10 +12,10 @@
                 Mac address is {{mac_address}}
             </div>
             <div class="info">
-                Username is valt25
+                Login is {{login}}
             </div>
             <div class="info">
-                User name is Valeriy Gerasimov
+                User name is {{username}}
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
 <script>
     import SystemInformation from './LandingPageComponents/SystemInformation'
 
-
+    const axios = require('axios');
     const os = require('os');
     const mac = require('getmac');
     const externalip = require('externalip');
@@ -36,7 +36,9 @@
             return {
                 platform: os.platform() + ' ' + os.release(),
                 ip_address: 'undefined',
-                mac_address: 'undefined'
+                mac_address: 'undefined',
+                login: 'undefined',
+                username: 'undefined'
             }
         },
         methods: {
@@ -54,6 +56,14 @@
                 if (err) throw err;
                 this.ip_address = ip;
             });
+
+            axios.get('http://localhost:3000/global').then((res) => {
+                let data = res.data;
+                this.login = data.login;
+                this.username = data.username;
+            }).catch((err) => {
+                console.log(err)
+            })
         }
     }
 </script>

@@ -22,14 +22,14 @@ function createWindow () {
    */
 
   window = new BrowserWindow({
-    width: 300,
+    width: 500,
     height: 310,
     show: false,
     frame: false,
     fullscreenable: false,
     resizable: false,
     transparent: true,
-    // 'node-integration': false
+    webPreferences: { webSecurity: false }
   });
 
   window.loadURL(winURL);
