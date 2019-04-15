@@ -21,7 +21,6 @@ function login() {
     axios.post(backend_url + '/login', {email: user.email, password: user.password}, {httpsAgent: agent})
         .then((res) => {
             jwt_token = res.data.token;
-            // console.log(res);
         })
         .catch((err) => {
             console.log(err);
@@ -29,23 +28,23 @@ function login() {
 }
 // strftime('%Y/%B/%d %H:%M:%S')
 module.exports = function send_activity(activity, sensor) {
-    if (jwt_token) {
-        var local_ip = ip.address();
-        var local_mac = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff';
-        const data = {
-            executable_name: activity.name,
-            activity_type: sensor.name,
-            start_time: activity.start,
-            end_time: activity.end,
-            ip_address: local_ip,
-            mac_address: local_mac,
-            idle_activity: activity.idle
-        };
-        console.log(data);
-        return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent}).then(e => console.log(e.config.data)).catch(e => console.log(e));
-    } else {
-        login();
+    var local_ip = ip.address();
+    var local_mac = 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff';
+    const data = {
+        executable_name: activity.name,
+        activity_type: sensor.name,
+        start_time: activity.start,
+        end_time: activity.end,
+        ip_address: local_ip,
+        mac_address: local_mac,
+        idle_activity: activity.idle
+    };
+    console.log(data);
+    if (!jwt_token) {
+        jwt_token = '';
     }
+    return axios.post(backend_url + '/activity', {'activity': data}, {headers: {Authorization: jwt_token}, httpsAgent: agent});
+
 };
 
 module.exports.login = () => {

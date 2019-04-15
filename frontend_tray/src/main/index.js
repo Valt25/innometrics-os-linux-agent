@@ -11,17 +11,17 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let window, tray;
-const winURL = process.env.NODE_ENV === 'development'
+let trayWindow, mainWindow, tray;
+const trayWinURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`;
 
-function createWindow () {
-  /**
-   * Initial window options
-   */
+const mainWinURL = process.env.NODE_ENV === 'development'
+    ? `http://localhost:9080/#/main`
+    : `file://${__dirname}/index.html#main`;
 
-  window = new BrowserWindow({
+function createTrayWindow() {
+  trayWindow = new BrowserWindow({
     width: 500,
     height: 310,
     show: false,
@@ -31,25 +31,39 @@ function createWindow () {
     transparent: true,
     webPreferences: { webSecurity: false }
   });
+  trayWindow.loadURL(trayWinURL);
 
-  window.loadURL(winURL);
-
-  window.on('closedf', () => {
-    window = null
+  trayWindow.on('closedf', () => {
+    trayWindow = null
   });
+}
+function createWindow () {
+  /**
+   * Initial window options
+   */
 
-
+  mainWindow = new BrowserWindow({
+    width: 720,
+    height: 600,
+    show: true,
+    frame: true,
+    fullscreenable: true,
+    resizable: true,
+    transparent: false,
+    webPreferences: { webSecurity: false }
+  });
+  mainWindow.loadURL(mainWinURL);
+  mainWindow.maximize();
   // Hide the window when it loses focus
-  window.on('blur', () => {
-    if (!window.webContents.isDevToolsOpened()) {
-      window.hide()
-    }
+  mainWindow.on('close', () => {
+      console.log('123');
+      mainWindow.hide();
   })
 }
 
 const toggleWindow = () => {
-  if (window.isVisible()) {
-    window.hide()
+  if (trayWindow.isVisible()) {
+    trayWindow.hide()
   } else {
     showWindow()
   }
@@ -66,16 +80,23 @@ const createTray = () => {
 
 app.on('ready', () => {
   createTray();
-  createWindow()
+  createTrayWindow();
+  createWindow();
 });
 
 const showWindow = () => {
-  let positioner = new Positioner(window);
+  let positioner = new Positioner(trayWindow);
   positioner.move('topRight');
-  window.show();
-  window.focus()
+  trayWindow.show();
+  trayWindow.focus()
 };
 
 ipcMain.on('show-window', () => {
   showWindow()
 });
+
+ipcMain.on('show-main-window', (event, arg) => {
+  createWindow();
+});
+
+

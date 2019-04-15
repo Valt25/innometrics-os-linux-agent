@@ -1,5 +1,6 @@
 let send_activity = require('../utils/backend');
 let date = require('date-and-time');
+const models = require('../models');
 
 
 function is_input_activity_valid(activity) {

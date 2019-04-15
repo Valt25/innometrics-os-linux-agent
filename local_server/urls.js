@@ -55,7 +55,20 @@ router.post('/global', function (req, res) {
             }
         });
     res.send("Ok")
+});
 
+router.get('/client/activities', function (req, res) {
+    models.Activity.findAll({
+        order: [
+            ['id', 'DESC'],
+        ],
+    }).then((activities) => {
+        console.log(activities);
+        res.send(activities);
+    }).catch((err) => {
+        console.log(err);
+        res.status.send(502)
+    })
 });
 
 module.exports = router;

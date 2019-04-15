@@ -18,12 +18,13 @@
                 User name is {{username}}
             </div>
         </div>
+        <button @click="openApp">Open app</button>
     </div>
 </template>
 
 <script>
     import SystemInformation from './LandingPageComponents/SystemInformation'
-
+    const { ipcRenderer } = require('electron');
     const axios = require('axios');
     const os = require('os');
     const mac = require('getmac');
@@ -42,8 +43,8 @@
             }
         },
         methods: {
-            open(link) {
-                this.$electron.shell.openExternal(link)
+            openApp() {
+                ipcRenderer.send('show-main-window', '');
             }
         },
         mounted() {
