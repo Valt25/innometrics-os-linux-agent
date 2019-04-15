@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, Tray, BrowserWindow, ipcMain } from 'electron'
+import { app, Tray, BrowserWindow, ipcMain} from 'electron'
 const path = require('path');
 const Positioner = require('electron-positioner');
 /**
@@ -56,7 +56,6 @@ function createWindow () {
   mainWindow.maximize();
   // Hide the window when it loses focus
   mainWindow.on('close', () => {
-      console.log('123');
       mainWindow.hide();
   })
 }
@@ -71,7 +70,8 @@ const toggleWindow = () => {
 
 
 const createTray = () => {
-  let imagePath = path.join(__dirname, 'sunTemplate.png');
+  let imagePath = path.join(__static, 'sunTemplate.png');
+  console.log(imagePath);
   tray = new Tray(imagePath);
   tray.on('click', function (event) {
     toggleWindow()

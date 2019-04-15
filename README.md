@@ -4,12 +4,7 @@ This is repository of innometrics cient system for linux os.
 #### Installation
 To install this system on your local machine, to begin gathering data from your machine.
 
-* Clone this repository, or get sources anyway you can
-    
-   `git clone https://github.com/Valt25/innometrics-os-linux-agent.git`
-* Then you have to go to new folder with sources
-
-    `cd ./innometrics-os-linux-agent/`
+* Get last built release as innometrics.tar.gz file from https://github.com/Valt25/innometrics-os-linux-agent/releases
     
 * To install all dependencies you have to run install.sh script
 

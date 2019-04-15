@@ -6,7 +6,6 @@
     "axios": "^0.18.0",
     "cron": "^1.6.0",
     "date-and-time": "^0.6.3",
-    "electron": "^4.1.4",
     "express": "latest",
     "getmac": "^1.4.6",
     "ip": "^1.1.5",
