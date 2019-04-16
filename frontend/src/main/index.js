@@ -61,9 +61,13 @@ function createWindow () {
 }
 
 const toggleWindow = () => {
-  if (trayWindow.isVisible()) {
-    trayWindow.hide()
-  } else {
+  try {
+    if (trayWindow.isVisible()) {
+      trayWindow = null;
+    } else {
+      showWindow()
+    }
+  } catch (e) {
     showWindow()
   }
 };
@@ -85,6 +89,7 @@ app.on('ready', () => {
 });
 
 const showWindow = () => {
+  createTrayWindow();
   let positioner = new Positioner(trayWindow);
   positioner.move('topRight');
   trayWindow.show();

@@ -2,14 +2,13 @@ let express = require('express');
 let router = express.Router();
 const models = require('./models');
 const proceed_raw = require('./activity_handlers');
+const send_activity = require('./utils/backend');
 
 router.post('/sensor/register', function (req, res) {
     var data = req.body;
-    console.log(data);
     var token = Math.random().toString(36).substr(2);
     models.Sensor.create({name: data.name, description: data.description, token: token})
         .then((sensor) => {
-            console.log(sensor);
             res.send({status: 'success', token: token});
         })
 });
@@ -17,10 +16,7 @@ router.post('/sensor/register', function (req, res) {
 
 router.post('/activity/data', function (req, res) {
     let data = req.body;
-    console.log(data);
     const token = req.get('Authorization');
-    console.log(data.type);
-    console.log(data.activity);
     models.Sensor.findOne({where: {token: token}})
         .then((sensor) => {
             proceed_raw(data, sensor);
@@ -29,7 +25,6 @@ router.post('/activity/data', function (req, res) {
 });
 
 router.get('/global', function (req, res) {
-    console.log('Global request');
     models.GlobalState.findByPk(1)
         .then((state) => {
             if (state) {
@@ -40,12 +35,11 @@ router.get('/global', function (req, res) {
             } else {
                 res.status(400).send("Need setup globals at first");
             }
-        }).catch(err => console.log(err));
+        }).catch(err => console.log('Error in getting global'));
 });
 
 router.post('/global', function (req, res) {
     let data = req.body;
-    console.log(data);
     models.GlobalState.findByPk(1)
         .then((state) => {
             if (state) {
@@ -53,6 +47,8 @@ router.post('/global', function (req, res) {
             } else {
                 models.GlobalState.create(data)
             }
+            send_activity.login();
+
         });
     res.send("Ok")
 });
@@ -63,12 +59,38 @@ router.get('/client/activities', function (req, res) {
             ['id', 'DESC'],
         ],
     }).then((activities) => {
-        console.log(activities);
         res.send(activities);
     }).catch((err) => {
-        console.log(err);
-        res.status.send(502)
+        res.status(502).send("Error")
     })
 });
 
+router.delete('/client/activity/:activityId', function (req, res) {
+    const activityId = req.params.activityId;
+    models.Activity.destroy({
+        where: {id: activityId},
+    }).then((result) => {
+        res.send("Ok");
+    }).catch((err) => {
+        res.status(404).send("Not found")
+    })
+});
+
+router.post('/client/activity/send', function (req, res) {
+    models.Activity.findAll()
+        .then((activities) => {
+            activities.forEach((activity) => {
+                try {
+                    let sensor = activity.getSensor();
+                    proceed_raw(activity, sensor);
+                    activity.destroy().then((result) => {
+                    }).catch((err) => {
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
+            });
+            res.send("Ok")
+        })
+});
 module.exports = router;

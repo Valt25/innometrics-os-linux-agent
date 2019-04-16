@@ -8,18 +8,6 @@ const proceed_raw = require('./activity_handlers');
 
 send_activity.login();
 
-// var cronJob = cron.job("*/10 * * * * *", function () {
-//     models.Activity.findAll()
-//         .then((activities) => {
-//             activities.forEach((activity) => {
-//                 // console.log(activity);
-//                 let sensor = activity.getSensor();
-//                 proceed_raw(activity, sensor);
-//
-//             })
-//         })
-// });
-// cronJob.start();
 app.use(express.json());
 app.use('', urls);
 

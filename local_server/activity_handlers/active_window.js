@@ -4,13 +4,12 @@ const models = require('../models');
 
 
 function is_input_activity_valid(activity) {
-
     if (activity.start && activity.end && activity.name) {
         try {
             let start = date.parse(activity.start, 'YYYY/MM/DD HH:mm:ss');
             let end = date.parse(activity.end, 'YYYY/MM/DD HH:mm:ss');
         } catch (e) {
-            console.log(e);
+            console.log('Error in handler');
             return {
                 result: false,
                 message: "Start or end fields are not in suitable format('YYYY/MM/DD HH:mm:ss' expected)"

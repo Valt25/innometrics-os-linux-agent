@@ -6,11 +6,11 @@ const handlers = {
 
 module.exports = function proceed_raw_activity(input, sensor) {
     const type = input.type;
-    const data = input.activity;
+    const data = input.data;
     const choosen_handler = handlers[type];
     var result = choosen_handler.is_valid(data);
     if (result.result) {
-       result = choosen_handler.proceed(data, sensor)
+       result = choosen_handler.proceed(data, sensor);
        return {
            code: 200,
            message: result
