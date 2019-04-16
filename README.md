@@ -9,7 +9,12 @@ To install this system on your local machine, to begin gathering data from your 
     Can be done by next command, but using browser it will be much faster
     
     `curl -s https://api.github.com/repos/Valt25/innometrics-os-linux-agent/releases/latest | grep "browser_download_url" | cut -d : -f 2,3 | tr -d \" | xargs wget`
+
+* Then you need to unzip archive and cd in created dir
+
+    `tar -xvzf ~/Загрузки/innometrics.tar.gz`
     
+    `cd release`
 * To install all dependencies you have to run install.sh script
 
     `./install.sh`
@@ -23,7 +28,7 @@ To install this system on your local machine, to begin gathering data from your 
 
     `./run.sh`
     
-    It will run 2 processes in parallel. To stop both, you just need to press ctrl+c.
+    It will run 3 programs in parallel. To stop all, you just need to press ctrl+c.
     
 #### Usage
 

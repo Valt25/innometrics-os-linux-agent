@@ -11,3 +11,4 @@ cp sensor/ release/ -r
 cp local_server/ release/ -r
 cp frontend/build/frontend\ 0.0.1.AppImage release/
 
+tar -zcvf innometrics.tar.gz release/
