@@ -10,11 +10,13 @@ To install this system on your local machine, to begin gathering data from your 
     
     `curl -s https://api.github.com/repos/Valt25/innometrics-os-linux-agent/releases/latest | grep "browser_download_url" | cut -d : -f 2,3 | tr -d \" | xargs wget`
 
-* Then you need to unzip archive and cd in created dir
-
-    `tar -xvzf ~/Загрузки/innometrics.tar.gz`
+* Then you need to unzip archive and cd in created dir(WARNING: this wil create new folder "innometrics" and rewrite files with same names)
     
-    `cd release`
+    `mkdir innometrics`
+    
+    `tar -xvzf innometrics.tar.gz -C innometrics`
+    
+    `cd innometrics`
 * To install all dependencies you have to run install.sh script
 
     `./install.sh`
@@ -40,3 +42,5 @@ We assume that all Ubuntu and Debian OSs have git, tar, and wget binaries in pat
 `sudo apt-get install tar`
 
 `sudo apt-get install wget`
+
+This software was tested on Ubuntu 18.04 LTS

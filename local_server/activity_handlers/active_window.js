@@ -37,18 +37,23 @@ function proceed_active_window(activity, sensor) {
             return "Sent."
         })
         .catch((err) => {
-            db_activity = {
-                type: 'active_window',
-                data: activity
-            };
-            models.Activity.create(db_activity).then((activity) => {
-                activity.setSensor(sensor, {save: true});
-                return "Not sent. Cached"
-            })
+            return "Not sent. Cached";
         })
+}
+
+function put_active_window_to_db(activity, sensor) {
+    db_activity = {
+        type: 'active_window',
+        data: activity
+    };
+    models.Activity.create(db_activity).then((activity) => {
+        activity.setSensor(sensor, {save: true});
+        return "Cached"
+    })
 }
 
 module.exports = {
     is_valid: is_input_activity_valid,
-    proceed: proceed_active_window
+    proceed: proceed_active_window,
+    to_db: put_active_window_to_db
 };

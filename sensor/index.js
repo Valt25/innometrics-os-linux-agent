@@ -24,7 +24,7 @@ function create_activity(window, idle) {
         console.log(new Date());
         const data = {
             type: 'active_window',
-            activity: {
+            data: {
                 name: window.window.owner.name,
                 start: strftime('%Y/%m/%d %H:%M:%S', window.begins_at),
                 end: strftime('%Y/%m/%d %H:%M:%S', new Date()),

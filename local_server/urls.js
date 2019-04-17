@@ -1,7 +1,9 @@
 let express = require('express');
 let router = express.Router();
 const models = require('./models');
-const proceed_raw = require('./activity_handlers');
+const proceed_raw = require('./activity_handlers').proceed_from_db;
+const put_to_db = require('./activity_handlers').put_to_db;
+
 const send_activity = require('./utils/backend');
 
 router.post('/sensor/register', function (req, res) {
@@ -19,7 +21,7 @@ router.post('/activity/data', function (req, res) {
     const token = req.get('Authorization');
     models.Sensor.findOne({where: {token: token}})
         .then((sensor) => {
-            proceed_raw(data, sensor);
+            put_to_db(data, sensor);
         });
     res.send("Ok")
 });
