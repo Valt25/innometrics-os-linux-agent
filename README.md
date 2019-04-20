@@ -33,7 +33,7 @@ To install this system on your local machine, to begin gathering data from your 
     It will run 3 programs in parallel. To stop all, you just need to press ctrl+c.
     
 #### Usage
-
+When you first run run.sh file, you will get main window opened, you have to push login button and then enter email and password(you have to have account on http://innometrics.guru/)
 #### Prerequisites
 We assume that all Ubuntu and Debian OSs have git, tar, and wget binaries in path by default. If not try next command:
 
